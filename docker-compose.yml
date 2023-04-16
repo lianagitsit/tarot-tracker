@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # database:
+  #   image: postgres:latest
+  #   ports:
+  #     - 5432:5432
+  #   # The `env_file` tag allows us to declare an environment file
+  #   env_file:
+  #     - .env # The name of your environment file (the one at the repository root)
+  #   volumes: 
+  #   - ./db-data/:/var/lib/postgresql/data/
+  # nginx:
+  #   image: nginx:latest
+  #   ports:
+  #     - 80:80
+  #   volumes:
+  #     - ./ui/build:/usr/share/nginx/html
+  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+  # node/express server
+  # server:
+  #   build:
+  #     context: ./server/
+  #   command: /app/node_modules/.bin/nodemon src/index.ts
+  #   volumes:
+  #     - ./server/:/app
+  #     - /app/node_modules
+  #   ports:
+  #     - "8080:8080"
+  #   # env_file: ./server/.env # TODO - uncomment this to auto-load your .env file!
+  #   environment:
+  #     - NODE_ENV=development
+  #     - CHOKIDAR_USEPOLLING=true
+  # React app
+  frontend:
+     build:
+       context: ./ui/
+       dockerfile: Dockerfile
+     volumes:
+       - ./ui/:/app
+       - /app/node_modules
+     ports:
+       - "3000:3000"
+     environment:
+       - CHOKIDAR_USEPOLLING=true
