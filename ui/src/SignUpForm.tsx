@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 
-export default function SignUpForm() {
+interface SignUpFormProps {
+    handleSignUp: (arg: boolean) => void
+}
+
+export default function SignUpForm({handleSignUp}: SignUpFormProps) {
     const [nameValue, setNameValue] = useState("");
     const [pwValue, setPwValue] = useState("");
 
@@ -12,8 +16,24 @@ export default function SignUpForm() {
         setPwValue(e.target.value);
     }
 
+    const handleSubmit = (event: any) => {
+        event?.preventDefault();
+        fetch('http://localhost:8080/api/signup', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({username: nameValue, password: pwValue}),
+            cache: 'default'
+          }).then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          })
+    }
+
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <label>
                 Name:
                 <input type="text" name="name" value={nameValue} onChange={handleNameChange} />
