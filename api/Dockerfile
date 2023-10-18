@@ -14,8 +14,9 @@ RUN npm install
 # RUN npm install -g nodemon
 
 COPY . .
-
-# RUN npx prisma generate
+# does this need to be run from /app/prisma?
+RUN npx prisma generate
+RUN npx prisma migrate dev
 
 EXPOSE 8080
 
